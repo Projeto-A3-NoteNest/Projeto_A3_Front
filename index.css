@@ -1,0 +1,44 @@
+body{
+    margin: 0px 20px;
+}
+
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.months{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon{
+    background-color: #c9c9c9;
+}
+
+.header-line{
+    border-bottom: 1px solid #c9c9c9;
+}
+
+.container{
+    margin-top: 20px;
+}
+
+.new-task-btn {
+  background-color: rgb(231, 231, 231);
+  padding: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: none;
+  width: 95%;
+  margin-top: 12px;
+}
+
+.new-task-btn:hover{
+    background-color: rgb(243, 243, 243);
+}
