@@ -2,6 +2,16 @@ body{
     margin: 0px 20px;
 }
 
+.teste{
+    display: flex;
+    flex-direction: column;
+}
+
+.teste2{
+    display: flex;
+    flex-direction: row;
+}
+
 .navbar{
     display: flex;
     flex-direction: row;
