@@ -1,54 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300;400;600&family=Lobster&family=Red+Hat+Display&display=swap');
+
+
 body{
-    margin: 0px 20px;
+    margin: 10px 20px;
+    font-family: 'Josefin Sans';
 }
 
-.teste{
-    display: flex;
-    flex-direction: column;
+textarea{
+    margin-top: 12px;
+    font-family: 'Red Hat Display';
 }
 
-.teste2{
-    display: flex;
-    flex-direction: row;
-}
+textarea:focus {
+    outline: none;
+    border: none; 
+    border-bottom: 2px solid #91e2db;
+  }
+
+  h1{
+    margin: 0px;
+  }
 
 .navbar{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
 }
 
-.months{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+.logo{
+    width: 200px;
 }
 
 .icon{
     background-color: #c9c9c9;
 }
 
-.header-line{
-    border-bottom: 1px solid #c9c9c9;
+.month-name{
+    font-family: 'Lobster';
+    font-weight: 600;
+    color: #2C4A54;
 }
 
-.container{
-    margin-top: 20px;
+.header-line{
+    border-bottom: 1px solid #c9c9c9;
+    margin: 5px 0px 15px 0px;
+}
+
+.day-column{
+    box-sizing: border-box;
+    width: 250px;
+    text-align: center;
+}
+
+.weekday{
+    font-weight: 600;
+    font-size: 20px;
+    color: #2C4A54;
+}
+
+.teste2{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+.months{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .new-task-btn {
-  background-color: rgb(231, 231, 231);
-  padding: 10px;
+  background-color: #e2f5f3;
+  padding: 4px;
   border-radius: 5px;
   box-sizing: border-box;
   border: none;
-  width: 95%;
+  width: 92%;
   margin-top: 12px;
+  font-family: 'Josefin Sans';
+  font-weight: 400;
+  transition: background-color 0.3s ease;
 }
 
 .new-task-btn:hover{
-    background-color: rgb(243, 243, 243);
+    background-color: #91e2db;
 }
