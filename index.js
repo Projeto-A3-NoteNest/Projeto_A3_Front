@@ -1,27 +1,62 @@
+//VERSAO TESTE
 function addNewTask(btn, dayDiv) {
   const dayCol = document.createElement('div');
-  const textarea = document.createElement('textarea');
+  const taskDiv = document.createElement('div');
+  taskDiv.classList.add('task-div'); // Adiciona a classe para estilização em CSS
+  
+  // Título
+  const titleInput = document.createElement('input');
+  titleInput.type = 'text';
+  titleInput.placeholder = 'Título';
+  titleInput.classList.add('title-input')
+  
+  // Data
+  const dateInput = document.createElement('input');
+  dateInput.type = 'date';
+  dateInput.classList.add('date-input')
+  
+  // Categoria
+  const categorySelect = document.createElement('select');
+  const categoryOption1 = document.createElement('option');
+  categoryOption1.value = 'category1';
+  categoryOption1.text = 'Categoria 1';
+  const categoryOption2 = document.createElement('option');
+  categoryOption2.value = 'category2';
+  categoryOption2.text = 'Categoria 2';
+  categorySelect.add(categoryOption1);
+  categorySelect.add(categoryOption2);
+  categorySelect.classList.add('category-select')
 
-  //estilizando area de texto
-  textarea.style.width = '92%';
-  textarea.style.height = '30px';
-  textarea.style.border = 'none'; // Remove todas as bordas
-  textarea.style.borderBottom = '1px solid #e0e0e0'; // Adiciona uma borda inferior
-  textarea.style.resize = 'none';
-  textarea.style.textAlign = 'center';
-  textarea.style.lineHeight = '25px';
-  textarea.style.overflow = 'hidden';
-
-  textarea.addEventListener('input', function () {
-    this.style.height = (this.scrollHeight) + 'px'; // Define a altura com base no scrollHeight
+  // Descrição
+  const descriptionInput = document.createElement('input');
+  descriptionInput.type = 'text';
+  descriptionInput.placeholder = 'Descrição';
+  descriptionInput.classList.add('description-input')
+  
+  //Função para ajustar a altura do input de texto
+  descriptionInput.addEventListener('input', function () {
+    this.style.minHeight = '30px';
+    this.style.height = Math.min(this.scrollHeight, 200) + 'px'; // Define a altura máxima como 200px
   });
+  
+  taskDiv.appendChild(titleInput);
+  taskDiv.appendChild(descriptionInput);
+  taskDiv.appendChild(dateInput);
+  taskDiv.appendChild(categorySelect);
 
-  dayCol.appendChild(textarea);
+  // Adicionando a div da tarefa ao dayCol
+  dayCol.appendChild(taskDiv);
   dayDiv.appendChild(dayCol);
   dayDiv.appendChild(btn);
+
+//   //Lib para fazer os elementos serem "arrastaveis"
+//   const draggable = new Draggable(taskDiv, {
+//     draggable: '.task-div',
+//     handle: '.task-div', 
+//   });
 }
 
-//Segunda
+// Segunda
 const btnMonday = document.querySelector('#btn-monday');
 const mondayDiv = document.querySelector('#monday');
 btnMonday.addEventListener('click', () => addNewTask(btnMonday, mondayDiv));
