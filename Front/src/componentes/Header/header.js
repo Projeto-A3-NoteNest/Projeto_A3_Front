@@ -1,8 +1,9 @@
 import './header.css'
+import React from 'react';
 
 function Header() {
     return (
-        <div className="header-div">
+        <div className='header-div'>
             <div className="navbar">
                 <div className="months">
                 <h1 className="month-name">Dezembro</h1>
