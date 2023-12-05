@@ -1,82 +1,120 @@
-import React, { useEffect, useState } from 'react';
-import './task.css'
+import React, { useEffect, useState } from "react";
+import "./task.css";
+import apiLembretes from "../../api/apiLembretes";
+import Card from "../Card/card";
 
 function Task({ dayDiv }) {
   const [tasks, setTasks] = useState([]);
+  const [preview, setPreview]= useState([]);
+  console.log('preview',preview)
 
-  const addNewTask = () => {
-    const newTask = {
-      title: '',
-      description: '',
-      date: '',
-      category: 'Categoria',
+
+  //Função para apagar lembretes salvos
+  const deleteTask = async (id) => {
+    try {
+      await apiLembretes.delete(`/lembretes/${id}`)
+      const filterTasks = tasks.filter((task) => task.id!=id)
+      setTasks(filterTasks);
+      alert('Lembrete excluído')
+    } catch (error) {
+      alert('Erro ao excluir lembrete')
+    }
+  };
+
+  //Função para apagar preview de lembretes
+  const deleteTaskPreview = async (index) => {
+    const filterTasks = tasks.filter((_task, i) => i!=index)
+    setPreview(filterTasks);
+  }
+
+  //Função para criar lembretes
+  const addNewTask = async (task) => {
+    console.log('task',task);
+    if (!task.id){
+      try {
+        const {data} = await apiLembretes.post('/lembretes',{
+          nome_lembrete:task.title,
+          data_lembrete: task.date,
+          categoria: task.category,
+          concluido: task.concluido,
+          dia_semana: dayDiv.dayName
+        })
+        task.id=data.id_lembrete
+        setTasks([...tasks,task]);
+        alert('Lembrete Adicionado')
+      } catch (error) {
+        alert('Erro ao adicionar lembrete')
+      }
+    } else {
+      try {
+        await apiLembretes.put(`/lembretes/${task.id}`,{
+          nome_lembrete:task.title,
+          data_lembrete: task.date,
+        })
+        setTasks([...tasks,task]);
+        alert('Lembrete atualizado')
+      } catch (error) {
+        alert('Erro ao atualizar lembrete')
+      }
+    }
+  };
+
+  const transitionNewTask = (task,index) => {
+    addNewTask(task);
+    setPreview(preview.filter((_task,i)=>{
+      return i !== index;
+    }))
+  }
+  
+  const transitionPreviewTask = (task, index) => {
+    setTasks(preview.filter((_task,i)=>{
+      return i !== index;
+    }))
+    setPreview([...preview,task])
+  }
+
+  //adiciona um preview de tarefa com valores nulos
+  const addNewPreview = () => {
+    const newPreview = {
+      title: "",
+      description: "",
+      date: "",
+      category: "Categoria",
+      concluido: false,
     };
 
-    setTasks([...tasks, newTask]);
-  };
-
-  const deleteTask = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks.splice(index, 1);
-    setTasks(updatedTasks);
-  };
-
-  const handleCategoryChange = (index, value) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].category = value;
-    setTasks(updatedTasks);
-  };
-
-  const getCategoryColor = (category) => {
-    // Mapeie categorias para cores desejadas
-    const categoryColors = {
-      'Trabalho': '#FFCCDA',
-      'Estudo': '#FFFCD3',
-      'Social': '#BCFFE6',
-      'Casa': '#CCF5FF',
-      'Saúde': '#E3BCFF',
-    };
-
-    return categoryColors[category] || 'white';
-  }  
+    setPreview([...preview, newPreview]);
+  }
 
   return (
-    <div className='day-column'>
+    <div className="day-column">
       <p className="weekday">{dayDiv.dayName}</p>
 
-      {tasks.map((task, index) => (
-        <div id={`task-${index}header`}>
-          <div key={index} id={`task-${index}`} className="task-div">
-            <button onClick={() => deleteTask(index)} className="delete-button">
-              X
-            </button>
-            <input type="text" placeholder="Título" className="title-input"  />
-            <textarea placeholder="Descrição" className="description-input" />
-            <input type="date" className="date-input" />
-
-            <select 
-            className="category-select" 
-            value={task.category} onChange={(e) => handleCategoryChange(index, e.target.value)} 
-            style={{ backgroundColor: getCategoryColor(task.category) }}
-            >
-              <option value="Categoria" style={{ backgroundColor: 'white' }}>Categoria</option>
-              <option value="Trabalho" style={{ backgroundColor: getCategoryColor('Trabalho') }}>Trabalho</option>
-              <option value="Estudo" style={{ backgroundColor: getCategoryColor('Estudo') }}>Estudo</option>
-              <option value="Social" style={{ backgroundColor: getCategoryColor('Social') }}>Social</option>
-              <option value="Casa" style={{ backgroundColor: getCategoryColor('Casa') }}>Casa</option>
-              <option value="Saúde" style={{ backgroundColor: getCategoryColor('Saúde') }}>Saúde</option>
-            </select>
-
-          </div>
-        </div>
+      {preview.map((task, index) => (
+        <Card
+          task={task}
+          index={index}
+          onSave={transitionNewTask}
+          onDelete={deleteTaskPreview}     
+          preview={true}
+        />
       ))}
 
-      <button className="new-task-btn" onClick={addNewTask}>
+      {tasks.map((task,index) => (
+        <Card
+        task={task}
+        index={index}
+        onSave={transitionPreviewTask}
+        onDelete={deleteTask}     
+        preview={false}
+        />
+      ))}
+
+      <button className="new-task-btn" onClick={addNewPreview}>
         Novo Lembrete
       </button>
     </div>
   );
-  
 }
 
 export default Task;
